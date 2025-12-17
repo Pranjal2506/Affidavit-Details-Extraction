@@ -1,0 +1,76 @@
+############################
+# GENERAL
+############################
+.DS_Store
+Thumbs.db
+*.log
+
+############################
+# NODE / REACT (Frontend - Vite)
+############################
+node_modules/
+frontend/node_modules/
+
+dist/
+frontend/dist/
+
+.vite/
+frontend/.vite/
+
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+.env
+.env.local
+.env.development
+.env.production
+.env.test
+
+############################
+# PYTHON / FLASK (Backend)
+############################
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+
+backend/__pycache__/
+backend/*.pyc
+
+venv/
+.venv/
+backend/venv/
+backend/.venv/
+
+.env
+backend/.env
+
+instance/
+backend/instance/
+
+############################
+# DOCKER
+############################
+*.tar
+docker-compose.override.yml
+
+############################
+# AFFIDAVIT (User PDFs - VERY IMPORTANT)
+############################
+affidavit/
+*.pdf
+
+############################
+# IDE / EDITOR
+############################
+.vscode/
+.idea/
+*.iml
+
+############################
+# OS FILES
+############################
+.DS_Store
+Thumbs.db
