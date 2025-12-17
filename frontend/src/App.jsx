@@ -13,7 +13,7 @@ function App() {
 
     setLoading(true);
     setData(null);
-    const res = await fetch("http://localhost:5000/extract", {
+    const res = await fetch("http://localhost:8000/extract", {
       method: "POST",
       body: formData,
     });

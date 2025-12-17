@@ -1,0 +1,27 @@
+version: "3.9"
+
+services:
+  db:
+    image: mysql:8.0
+    container_name: project-mysql
+    restart: always
+    env_file:
+      - .env
+    ports:
+      - "3307:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+
+  backend:
+    build: ./backend
+    container_name: project-backend
+    restart: always
+    env_file:
+      - .env
+    depends_on:
+      - db
+    ports:
+      - "8000:8000"
+
+volumes:
+  mysql_data:

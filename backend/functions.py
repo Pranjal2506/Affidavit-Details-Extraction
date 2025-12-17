@@ -6,8 +6,16 @@ import google.generativeai as genai
 import json
 from dotenv import load_dotenv
 import os
+import logging
 
 load_dotenv()
+logging.basicConfig(
+    level=logging.INFO,
+    format="%(asctime)s | %(levelname)s | %(name)s | %(message)s"
+)
+
+logger = logging.getLogger(__name__)
+
 # pytesseract.pytesseract.tesseract_cmd = r"C:\Program Files\Tesseract-OCR\tesseract.exe"
 genai.configure(api_key=os.getenv("GEMINI_API_KEY"))
 model = genai.GenerativeModel("gemini-2.5-flash")
@@ -39,7 +47,7 @@ def pdf_to_images(pdf_path, dpi=300):
         img = Image.frombytes("RGB", [pix.width, pix.height], pix.samples)
         images.append(img)
 
-    print(f"Total pages: {len(images)}")
+    logger.info(f"Total pages: {len(images)}")
     return images
 
 def pan_and_user_pg_num(pages):
@@ -61,20 +69,22 @@ def pan_and_user_pg_num(pages):
         text_lower = text.lower()
 
         if pan_page is None and any(k.lower() in text_lower for k in PAN_KEYWORDS):
-            print(f"PAN page detected at page {idx + 1}")
+            logger.info(f"PAN page detected at page {idx + 1}")
             pan_page = idx
 
         if user_details_page is None and any(k.lower() in text_lower for k in USER_DETAILS_KEYWORDS):
-            print(f"User details page detected at page {idx + 1}")
+            logger.info(f"User details page detected at page {idx + 1}")
             user_details_page = idx
         
         if pan_page is not None and user_details_page is not None:
             break
         
     if pan_page is None:
+        logger.error("PAN page not found in the document")
         raise Exception("PAN page not found")
 
     if user_details_page is None:
+        logger.error("User details page not found in the document")
         raise Exception("User details page not found")
 
     return pan_page, user_details_page
@@ -90,7 +100,7 @@ def get_user_details(pages, page_index):
     4. Phone Number (if mentioned)
     6. Age (if mentioned)
     
-
+    Convert the details from hindi to english if they are in hindi.
     Return STRICT JSON only:
     {
       "name": "...",
@@ -103,16 +113,15 @@ def get_user_details(pages, page_index):
     - Return null for any missing field.
     - Ensure JSON is valid.
     """
-    
-    print("Extracting user details from first page...")
+    logger.info("Extracting user details from user details page...")
     try:
         user_response = model.generate_content([user_prompt, first_page_image])
     except Exception as e:
-        print("Error during user details extraction:", str(e))
+        logger.error("Error during user details extraction:", str(e))
         return {}
-    print("User Details Raw:")
-    print(user_response.text)
-    
+    logger.info("User Details Raw:")
+    logger.info(user_response.text)
+
     return safe_parse_json(user_response.text)
 
 def get_pan_number_details(pages, pan_page_index, user_data):
@@ -131,14 +140,14 @@ def get_pan_number_details(pages, pan_page_index, user_data):
     - If not visible, return null
     """
 
-    print("Extracting PAN from PAN page...")
+    logger.info("Extracting PAN from PAN page...")
     try:
         pan_response = model.generate_content([pan_prompt, pan_page_image])
     except Exception as e:
-        print("Error during PAN extraction:", str(e))
+        logger.error("Error during PAN extraction:", str(e))
         return user_data
-    print("PAN Raw Result:")
-    print(pan_response.text)
+    logger.info("PAN Raw Result:")
+    logger.info(pan_response.text)
     chq_pan_number(pan_response.text, user_data)
     return user_data
     
@@ -168,6 +177,6 @@ def process_pdf(pdf_path):
     pan_page, user_page = pan_and_user_pg_num(pages)
     user_data = get_user_details(pages, user_page)
     result = get_pan_number_details(pages, pan_page, user_data)
-    print("\n FINAL MERGED JSON:")
-    print(json.dumps(result, indent=2))
+    logger.info("\n FINAL MERGED JSON:")
+    logger.info(json.dumps(result, indent=2))
     return result

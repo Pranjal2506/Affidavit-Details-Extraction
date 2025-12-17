@@ -6,3 +6,4 @@ pymupdf
 google-generativeai
 python-dotenv
 gunicorn
+mysql-connector-python
