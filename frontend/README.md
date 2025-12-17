@@ -243,6 +243,26 @@ Example response:
 
 ##
 
+## 📸 Application Demo
+
+### 🧾 Input Affidavit PDF (Official Source)
+
+🔗 **Official PDF Source:**  
+[Click here to download the affidavit PDF from the official website](https://affidavit.eci.gov.in/show-profile/eyJpdiI6ImVzL3FqRFpqN0hmT1lqdjJwRklPTnc9PSIsInZhbHVlIjoiMWRKcExMRWI2L3hBVXEveHl4Z2FsZz09IiwibWFjIjoiYzE1ODBhMzhiNTdmMTg0OTQzZjNjODQ5YWJhNjNjNWRkOTA0YTkxMzc4MWYxODlhMjY4NTA3NjA4NzdkODc4YyIsInRhZyI6IiJ9/eyJpdiI6ImdPRXM0QlNldURDR0tiRDF3MUhnU3c9PSIsInZhbHVlIjoiYmVmM1ZlbmNKZHk0bGZma0xGQ05Rdz09IiwibWFjIjoiNTQxMDM1Y2Y0MGE2NjBlZWQ4MzY5OGMyNmQ3ZWVkOWE4NWYzMTcxYmU3MWI1Y2FjNGRjNGM4MjdiMDZjZTAzMCIsInRhZyI6IiJ9/eyJpdiI6InorK3NzSjJ3bFcwSVByVi9hbHA1T2c9PSIsInZhbHVlIjoiYkFmK05SbVJxM2wyelFrSUVhMVBzUT09IiwibWFjIjoiNGFmZWI3YmVhNjU5ZjlmMjRlMWQ2MzU4NDk1ZWI2YWYyMjM1ZTZmOTU1N2U5OTI3M2QxNGQ2NTViNWQzYzdlZCIsInRhZyI6IiJ9/eyJpdiI6IjJoa2hNMk5uK3l1UEpVdDUvNTRTc2c9PSIsInZhbHVlIjoibGRpOWpZeHJqaWZwZzdqTUdWS3plZz09IiwibWFjIjoiODBiMGQwZDQ3OTliZjUxNzgyMGFjY2M4MTM5YmRmMjA4N2ZjZDNhOWE4MTM3MGI2YzEyNjYyODBjNTEyMDhkYyIsInRhZyI6IiJ9/eyJpdiI6IkFnWktZODZ0SldVUnIxY2RZWnE2QWc9PSIsInZhbHVlIjoidkxnYmU4WC9JWTQ2VytrbTBUT1lkZz09IiwibWFjIjoiODQ0ODkzMzllZWRiNjEzZWNiOWE3NjNjOWRlYWY2NDFlN2FlZGFkNTU3ZWQ2OTAwOWI5NTUzMDEyNTlhZWNmNCIsInRhZyI6IiJ9)
+
+> ⚠️ *The PDF is publicly available on the official website and is used here only for demonstration purposes.*
+
+![Input PDF Preview1](screenshots/Screenshot 2025-12-18 023546.png)
+![Input PDF Preview2](screenshots/Screenshot 2025-12-18 023610.png)
+
+---
+
+### 📤 Extracted Output (Frontend Result)
+
+![Output Result](screenshots/Screenshot 2025-12-18 023704.png)
+
+
+
 ---
 
 ## 🧑‍💻 Author
