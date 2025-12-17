@@ -58,8 +58,8 @@ def extract():
     pdf.save(path)
 
     try:
-        # data = process_pdf(path)
-        data = {"name": "Pranjal Raghuvanshi", "age": 25, "phone": 1234321231, "pan": "ABCDE1234F", "address": "123, Some Street, Some City, Some Country"}
+        data = process_pdf(path)
+        # data = {"name": "Pranjal Raghuvanshi", "age": 25, "phone": 1234321231, "pan": "ABCDE1234F", "address": "123, Some Street, Some City, Some Country"}
         db = get_db()
         cursor = db.cursor()
         query = """
