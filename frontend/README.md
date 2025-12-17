@@ -252,14 +252,14 @@ Example response:
 
 > ⚠️ *The PDF is publicly available on the official website and is used here only for demonstration purposes.*
 
-![Input PDF Preview1](screenshots/Screenshot 2025-12-18 023546.png)
-![Input PDF Preview2](screenshots/Screenshot 2025-12-18 023610.png)
+![Input PDF Preview1](screenshots/input_image1.png)
+![Input PDF Preview2](screenshots/input_image2.png)
 
 ---
 
 ### 📤 Extracted Output (Frontend Result)
 
-![Output Result](screenshots/Screenshot 2025-12-18 023704.png)
+![Output Result](screenshots/output_image.png)
 
 
 
