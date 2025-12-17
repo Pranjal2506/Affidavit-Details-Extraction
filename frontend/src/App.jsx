@@ -4,6 +4,7 @@ function App() {
   const [file, setFile] = useState(null);
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(false);
+  const displayOrder = ["name", "age", "address", "phone", "pan"];
 
   const uploadPdf = async () => {
     if (!file) return alert("Upload a PDF");
@@ -104,9 +105,10 @@ function App() {
               </h2>
               <div className="bg-linear-to-br from-gray-50 to-gray-100 rounded-lg p-4 overflow-x-auto">
                 <pre className="text-sm text-gray-800 font-mono whitespace-pre-wrap wrap-break-word">
-                  {Object.entries(data).map(([key, value]) => (
-                  `${key.replaceAll("_", " ")} : ${value}\n`
-                  )).join("")}
+                  {displayOrder
+                    .filter((key) => data[key])
+                    .map((key) => `${key.replaceAll("_", " ")} : ${data[key]}\n`)
+                    .join("")}
                 </pre>
 
               </div>
