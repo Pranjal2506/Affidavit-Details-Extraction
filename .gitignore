@@ -56,11 +56,6 @@ backend/instance/
 *.tar
 docker-compose.override.yml
 
-############################
-# AFFIDAVIT (User PDFs - VERY IMPORTANT)
-############################
-affidavit/
-*.pdf
 
 ############################
 # IDE / EDITOR
