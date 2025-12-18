@@ -142,13 +142,15 @@ http://localhost:8000
 ### Table: `extracted_data`
 
 ```
-id          INT (PK, auto increment)
-name        VARCHAR(255)
-age         INT
-phone       VARCHAR(20)
-pan         VARCHAR(20)
-address     TEXT
-created_at  TIMESTAMP (auto-generated)
+id               INT (PK, auto increment)
+name             VARCHAR(255)
+age              INT
+phone            VARCHAR(20)
+pan              VARCHAR(20)
+pan_confidence   FLOAT
+guardians_name   VARCHAR(255)
+address          TEXT
+created_at       TIMESTAMP (auto-generated)
 ```
 
 No manual SQL execution required.
@@ -205,11 +207,13 @@ Example response:
 
 ```
 {
-  "name": "Rajeev Ranjan",
-  "age": 26,
-  "phone": "73197029",
-  "pan": "CHCPR9394A",
-  "address": "ग्राम पोस्ट करमा..."
+  "name": "Vidyanand Ram",
+  "age": 49,
+  "phone": "7765894417",
+  "pan": "EXHPR4809E",
+  "pan_confidence": 9.5,
+  "guardians_name": "Late Beju Ram
+  "address": "House No. 48, Forbesganj, Police St.."
 }
 ```
 

@@ -4,7 +4,7 @@ function App() {
   const [file, setFile] = useState(null);
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(false);
-  const displayOrder = ["name", "age", "address", "phone", "pan"];
+  const displayOrder = ["name", "guardians_name", "pan", "pan_confidence", "age", "phone", "address"];
 
   const uploadPdf = async () => {
     if (!file) return alert("Upload a PDF");

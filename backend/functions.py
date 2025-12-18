@@ -97,13 +97,15 @@ def get_user_details(pages, page_index):
     Extract ONLY the following user details if present:
     1. Full Name
     3. Address (full)
-    4. Phone Number (if mentioned)
+    4. Father's / Spouse Name
+    5. Phone Number (if mentioned)
     6. Age (if mentioned)
     
     Convert the details from hindi to english if they are in hindi.
     Return STRICT JSON only:
     {
       "name": "...",
+      "guardians_name": "...",
       "age": "...",
       "address": "...",
       "phone": "..."
@@ -128,16 +130,39 @@ def get_pan_number_details(pages, pan_page_index, user_data):
     pan_page_image = pages[pan_page_index]
 
     pan_prompt = """
-    This is a PAN-related page from an Indian affidavit.
+    You are given an image of an Indian affidavit document that may contain a PAN card.
 
-    Extract ONLY the PAN card number.
-    PAN format: AAAAA9999A
+    Your task is to extract:
+    1. The PAN card number
+    2. A confidence score for the extracted PAN
 
-    Rules:
-    - PAN is usually below headings like:
-      "पीएएन", "स्थायी लेखा", "स्थायी लेखा संख्या"
-    - Return ONLY the PAN string
-    - If not visible, return null
+    PAN Format:
+    - Exactly 10 characters
+    - Pattern: AAAAA9999A (5 uppercase letters, 4 digits, 1 uppercase letter)
+
+    Extraction Rules:
+    - Look for PAN under or near headings such as:
+      "पीएएन", "स्थायी लेखा", "स्थायी लेखा संख्या", "Permanent Account Number", "PAN"
+    - Extract ONLY the PAN number visible in the image
+    - Do NOT guess or infer missing characters
+    - If a valid PAN is not clearly visible, return null for the PAN
+
+    Output Format (STRICT):
+    Return ONLY a valid JSON object in the following format:
+
+    {
+      "pan": "FAIPS5217L",
+      "confidence_score": 0.92
+    }
+
+    Confidence Score Guidelines:
+    - Value must be between 0 and 1
+    - High confidence (0.85–1.0): PAN is clearly readable and fully visible
+    - Medium confidence (0.6–0.84): PAN is visible but slightly unclear
+    - Low confidence (0.3–0.59): PAN is partially visible or noisy
+    - If PAN is null, confidence_score must be 0.0
+
+    Do NOT include any explanation or additional text.
     """
 
     logger.info("Extracting PAN from PAN page...")
@@ -148,25 +173,35 @@ def get_pan_number_details(pages, pan_page_index, user_data):
         return user_data
     logger.info("PAN Raw Result:")
     logger.info(pan_response.text)
-    chq_pan_number(pan_response.text, user_data)
+    pan_result = safe_parse_json(pan_response.text)
+    chq_pan_number(pan_result, user_data)
     return user_data
     
     
-def chq_pan_number(pan_number, user_data):
-    pan_text = re.sub(r"```json|```", "", pan_number, flags=re.IGNORECASE).strip()
+def chq_pan_number(pan_details: dict, user_data: dict):
+    if not isinstance(pan_details, dict):
+        user_data["pan"] = None
+        user_data["pan_confidence"] = 0.0
+        return
 
-    if pan_text.lower() == "null":
+    pan_text = str(pan_details.get("pan", "")).strip()
+    
+    try:
+        confidence = float(pan_details.get("confidence_score", 0.0))
+    except (ValueError, TypeError):
+        confidence = 0.0
+
+    if not pan_text or pan_text.lower() == "null":
         pan_value = None
     else:
-        pan_value = pan_text.strip('"').strip()
+        pan_value = pan_text.strip('"').upper()
 
-    def is_valid_pan(pan):
-        return bool(re.fullmatch(r"[A-Z]{5}[0-9]{4}[A-Z]", pan or ""))
-
-    if not is_valid_pan(pan_value):
+    if not re.fullmatch(r"[A-Z]{5}[0-9]{4}[A-Z]", pan_value or ""):
         pan_value = None
+        confidence = 0.0
 
     user_data["pan"] = pan_value
+    user_data["pan_confidence"] = confidence
 
 
 

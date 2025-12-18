@@ -35,6 +35,8 @@ def init_db():
             age INT,
             phone VARCHAR(20),
             pan VARCHAR(20),
+            pan_confidence FLOAT,
+            guardians_name VARCHAR(255),
             address TEXT,
             created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
         )
@@ -63,16 +65,18 @@ def extract():
         db = get_db()
         cursor = db.cursor()
         query = """
-            INSERT INTO extracted_data (name, age, phone, pan, address)
-            VALUES (%s, %s, %s, %s, %s)
+            INSERT INTO extracted_data (name, age, phone, pan, pan_confidence, guardians_name, address)
+            VALUES (%s, %s, %s, %s, %s, %s, %s)
             """
 
         values = (
-            data["name"],
-            data["age"],
-            str(data["phone"]),
-            data["pan"],
-            data["address"]
+            data.get("name"),
+            data.get("age"),
+            str(data["phone"]) if data.get("phone") else None,
+            data.get("pan"),
+            float(data.get("pan_confidence", 0.0)),
+            data.get("guardians_name"),
+            data.get("address")
         )
 
         try:
